@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="bg-dark text-white">
+    <div class="cover-container p-3 mx-auto flex-column">
+        <nav  class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+            <div class="container-fluid ">
+              <a class="navbar-brand mb-3" href="{% url 'index' %}">Guess_the_character</a>
+              <div class="collapse navbar-collapse" id="navbarsExample02">
+                <ul class=" d-flex navbar-nav me-auto">
+                 <li class="nav-item">
+                    <a class="nav-link active mb-3" aria-current="page" href="{% url 'index' %}">Главная</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active mb-3" aria-current="page" href="{% url 'test' %}">Пройти тест</a>
+                  </li>
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                {% if test_statistics %}
+                <li class="nav-item me-5">
+                  <p class="navbar-text">Пройденно тестов: {{test_statistics.passed_tests}}</p>
+               </li>
+               <li class="nav-item me-5">
+                <p class="navbar-text">Правельных ответов: {{test_statistics.passed_tests}}</p>
+             </li>
+             <li class="nav-item me-5">
+              <p class="navbar-text">Неправельных ответов: {{test_statistics.wrong_answers}}</p>
+           </li>
+           <li class="nav-item me-5">
+            <p class="navbar-text">Идеальных тестов: {{test_statistics.perfect_tests}}</p>
+         </li>
+         {% endif %}
+                <li class="nav-item">
+                   <p class="navbar-text">Пользователь {{request.user}}</p>
+                </li>
+                <li class="nav-item">
+                  <p class="ms-2"><a class="btn btn-primary" href="{% url 'account' request.user.pk %}">Профиль</a></p>
+              </li>
+               <li class="nav-item">
+                   <p class="ms-2"><a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a></p>
+               </li>
+               {% else %}
+               <li class="nav-item">
+                   <p class="ms-2"><a class="btn btn-primary" href="{% url 'login' %}">Войти</a></p>
+               </li>
+               <li class="nav-item">
+               <p class="ms-2"><a class="btn btn-primary" href="{% url 'register' %}">Зарегистрироваться</a></p>
+               </li>
+               {% endif %}
+            </ul>
+              </div>
+            </div>
+          </nav>
+        <div class="d-flex flex-column flex-wrap">
+            <div class="d-flex flex-row flex-wrap bg-dark justify-content-center align-content-center text-white mb-3">
+                {% block content %}
+
+                {% endblock content %}
+            </div>
+        </div>
+</body>
+</html>
